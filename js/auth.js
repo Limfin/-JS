@@ -6,6 +6,7 @@ const inputLogin = document.getElementById('login');
 const inputPassword = document.getElementById('password');
 const buttonOut = document.querySelector('.button-out');
 const userName = document.querySelector('.user-name');
+let userLogin = false;
 
 const login = (user) => {
 	buttonAuth.style.display = 'none';
@@ -14,6 +15,8 @@ const login = (user) => {
 
 	userName.textContent = user.login;
 	modalAuth.style.display = 'none';
+
+	userLogin = true;
 }
 const logout = () => {
 	buttonAuth.style.display = 'flex';
@@ -23,6 +26,9 @@ const logout = () => {
 	userName.textContent = '';
 
 	localStorage.removeItem('user');
+
+	userLogin = false;
+	window.location.href = '/';
 }
 
 buttonAuth.addEventListener('click', () => {
