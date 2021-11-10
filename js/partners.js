@@ -1,15 +1,16 @@
-const cardsRestaurants = document.querySelector('.cards-restaurants');
-const user = JSON.parse(localStorage.getItem('user'));
+// const partners = () => {
+	const cardsRestaurants = document.querySelector('.cards-restaurants');
+	const user = JSON.parse(localStorage.getItem('user'));
 
-const renderItems = (data) => {
-	data.forEach(item => {
-		const a = document.createElement('a');
-		a.setAttribute('href', '/restaurant.html');
-		a.classList.add('card');
-		a.classList.add('card-restaurant');
-		a.dataset.products = item.products;
+	const renderItems = (data) => {
+		data.forEach(item => {
+			const a = document.createElement('a');
+			a.setAttribute('href', '/restaurant.html');
+			a.classList.add('card');
+			a.classList.add('card-restaurant');
+			a.dataset.products = item.products;
 
-		a.innerHTML = `
+			a.innerHTML = `
 			<img src="${item.image}" alt="${item.name}" class="card-image" />
 			<div class="card-text">
 				<div class="card-heading">
@@ -28,30 +29,34 @@ const renderItems = (data) => {
 			</div>
 		`;
 
-		a.addEventListener('click', (e) => {
-			e.preventDefault();
+			a.addEventListener('click', (e) => {
+				e.preventDefault();
 
-			localStorage.setItem('restaurant', JSON.stringify(item));
-			localStorage.setItem('restaurant-name', item.name);
+				localStorage.setItem('restaurant', JSON.stringify(item));
+				localStorage.setItem('restaurant-name', item.name);
 
-			if (userLogin) {
-				console.log(222);
-				window.location.href = a.getAttribute('href');
-			} else {
-				console.log(111);
-				modalAuth.style.display = 'flex';
-			}
+				if (userLogin) {
+					console.log(222);
+					window.location.href = a.getAttribute('href');
+				} else {
+					console.log(111);
+					modalAuth.style.display = 'flex';
+				}
+			})
+
+			cardsRestaurants.append(a);
+		});
+	};
+
+	fetch('https://delivery-food-js-default-rtdb.firebaseio.com/db/partners.json')
+		.then((response) => response.json())
+		.then((data) => {
+			renderItems(data);
 		})
+		.catch((error) => {
+			console.log(error);
+		})
+// }
 
-		cardsRestaurants.append(a);
-	});
-};
 
-fetch('https://delivery-food-js-default-rtdb.firebaseio.com/db/partners.json')
-	.then((response) => response.json())
-	.then((data) => {
-		renderItems(data);
-	})
-	.catch((error) => {
-		console.log(error);
-	})
+// partners();
